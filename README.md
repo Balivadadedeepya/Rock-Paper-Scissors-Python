@@ -14,6 +14,10 @@ A command-line Rock, Paper, Scissors game developed in Python where the player c
 - Python 3
 - Random Module
 
+## 🚀 Live Demo
+
+[Play Rock Paper Scissors](https://rock-paper-sciapprs-python-kfvxvpae9fydg9uthnrita.streamlit.app/)
+
 ## ▶️ How to Run
 
 ```bash
