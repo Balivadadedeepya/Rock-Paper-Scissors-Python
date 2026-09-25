@@ -1,34 +1,113 @@
 import random
 
-choices = ["Rock", "Paper", "Scissors"]
 
-print("🎮 Welcome to Rock, Paper, Scissors!")
+CHOICES = ["Rock", "Paper", "Scissors"]
 
-while True:
-    user = input("\nEnter Rock, Paper, or Scissors: ").capitalize()
 
-    if user not in choices:
-        print("❌ Invalid choice! Try again.")
-        continue
+def get_user_choice():
+    """Get and validate the player's choice."""
+    while True:
+        user_input = input(
+            "\nEnter Rock, Paper, or Scissors: "
+        ).strip().capitalize()
 
-    computer = random.choice(choices)
+        if user_input in CHOICES:
+            return user_input
 
-    print(f"\nYou chose: {user}")
-    print(f"Computer chose: {computer}")
+        print("❌ Invalid choice! Please enter Rock, Paper, or Scissors.")
 
+
+def determine_winner(user, computer):
+    """Determine the winner of a round."""
     if user == computer:
-        print("🤝 It's a tie!")
-    elif (
-        (user == "Rock" and computer == "Scissors") or
-        (user == "Paper" and computer == "Rock") or
-        (user == "Scissors" and computer == "Paper")
-    ):
-        print("🎉 You win!")
+        return "Tie"
+
+    winning_combinations = {
+        "Rock": "Scissors",
+        "Paper": "Rock",
+        "Scissors": "Paper"
+    }
+
+    if winning_combinations[user] == computer:
+        return "User"
+
+    return "Computer"
+
+
+def display_result(user, computer, result):
+    """Display the result of the current round."""
+    print("\n" + "=" * 40)
+    print(f"👤 You chose:      {user}")
+    print(f"💻 Computer chose: {computer}")
+
+    if result == "Tie":
+        print("🤝 Result: It's a tie!")
+    elif result == "User":
+        print("🎉 Result: You win!")
     else:
-        print("💻 Computer wins!")
+        print("💻 Result: Computer wins!")
 
-    play_again = input("\nPlay again? (yes/no): ").lower()
+    print("=" * 40)
 
-    if play_again != "yes":
-        print("👋 Thanks for playing!")
-        break
+
+def play_game():
+    """Run the Rock Paper Scissors game."""
+    user_score = 0
+    computer_score = 0
+    ties = 0
+    round_number = 1
+
+    print("\n🎮 ROCK PAPER SCISSORS")
+    print("Welcome to the game!")
+
+    while True:
+        print(f"\n🔹 Round {round_number}")
+
+        user = get_user_choice()
+        computer = random.choice(CHOICES)
+
+        result = determine_winner(user, computer)
+
+        if result == "User":
+            user_score += 1
+        elif result == "Computer":
+            computer_score += 1
+        else:
+            ties += 1
+
+        display_result(user, computer, result)
+
+        print(
+            f"📊 Score → You: {user_score} | "
+            f"Computer: {computer_score} | Ties: {ties}"
+        )
+
+        play_again = input(
+            "\nPlay another round? (yes/no): "
+        ).strip().lower()
+
+        if play_again not in ["yes", "y"]:
+            break
+
+        round_number += 1
+
+    print("\n🏁 GAME OVER")
+    print("-" * 40)
+    print(f"👤 Your score:      {user_score}")
+    print(f"💻 Computer score: {computer_score}")
+    print(f"🤝 Total ties:      {ties}")
+    print(f"🎯 Total rounds:    {round_number}")
+    print("-" * 40)
+
+    if user_score > computer_score:
+        print("🏆 You won the game!")
+    elif computer_score > user_score:
+        print("💻 Computer won the game!")
+    else:
+        print("🤝 The game ended in a tie!")
+
+    print("👋 Thanks for playing!")
+
+
+if __name__ == "__main__":
+    play_game()
