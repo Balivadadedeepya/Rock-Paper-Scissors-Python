@@ -1,0 +1,106 @@
+import random
+
+
+CHOICES = ["Rock", "Paper", "Scissors"]
+WINNING_SCORE = 3
+
+
+def get_user_choice():
+    """Get and validate the player's choice."""
+    while True:
+        choice = input(
+            "\nEnter Rock, Paper, or Scissors: "
+        ).strip().capitalize()
+
+        if choice in CHOICES:
+            return choice
+
+        print("❌ Invalid choice. Please try again.")
+
+
+def determine_winner(user, computer):
+    """Determine the winner of a round."""
+    if user == computer:
+        return "Tie"
+
+    winning_combinations = {
+        "Rock": "Scissors",
+        "Paper": "Rock",
+        "Scissors": "Paper"
+    }
+
+    if winning_combinations[user] == computer:
+        return "User"
+
+    return "Computer"
+
+
+def display_round(user, computer, result, user_score, computer_score):
+    """Display the result of a round."""
+    print("\n" + "=" * 45)
+    print(f"👤 You:      {user}")
+    print(f"💻 Computer: {computer}")
+
+    if result == "User":
+        print("🎉 You won this round!")
+    elif result == "Computer":
+        print("💻 Computer won this round!")
+    else:
+        print("🤝 It's a tie!")
+
+    print(f"\n🏆 Score — You: {user_score} | Computer: {computer_score}")
+    print("=" * 45)
+
+
+def play_game():
+    """Run a best-of-5 Rock Paper Scissors game."""
+    user_score = 0
+    computer_score = 0
+    ties = 0
+    round_number = 1
+
+    print("\n🎮 ROCK PAPER SCISSORS")
+    print("🏆 Best of 5")
+    print("First player to reach 3 wins!")
+
+    while user_score < WINNING_SCORE and computer_score < WINNING_SCORE:
+        print(f"\n🔹 Round {round_number}")
+
+        user = get_user_choice()
+        computer = random.choice(CHOICES)
+
+        result = determine_winner(user, computer)
+
+        if result == "User":
+            user_score += 1
+        elif result == "Computer":
+            computer_score += 1
+        else:
+            ties += 1
+
+        display_round(
+            user,
+            computer,
+            result,
+            user_score,
+            computer_score
+        )
+
+        round_number += 1
+
+    print("\n🏁 GAME OVER")
+    print("-" * 45)
+
+    if user_score == WINNING_SCORE:
+        print("🏆 YOU WON THE MATCH!")
+    else:
+        print("💻 COMPUTER WON THE MATCH!")
+
+    print(f"Final Score: You {user_score} - {computer_score}")
+    print(f"🤝 Total ties: {ties}")
+    print("-" * 45)
+    print("👋 Thanks for playing!")
+
+
+if __name__ == "__main__":
+    play_game()
